@@ -6,7 +6,7 @@ import {
     VERTICAL_SPACING,
     ODD_ROW_X_OFFSET_MULTIPLIER,
     INITIAL_PADDING
-} from './constants';
+} from './constants'
 
 /**
  * Helper for rounding to half-pixels.
@@ -16,7 +16,7 @@ import {
  * @returns {number} The coordinate rounded to the nearest half-pixel.
  */
 export function roundToHalfPixel(coord) {
-    return Math.floor(coord) + 0.5;
+    return Math.floor(coord) + 0.5
 }
 
 /**
@@ -25,11 +25,11 @@ export function roundToHalfPixel(coord) {
  * @returns {{col: number, row: number}} An object with column and row as numbers.
  */
 export function parseCellId(id) {
-    const parts = id.split('-');
+    const parts = id.split('-')
     return {
         col: parseInt(parts[0], 10), // Use radix 10 for parseInt
         row: parseInt(parts[1], 10)
-    };
+    }
 }
 
 /**
@@ -42,10 +42,10 @@ export function parseCellId(id) {
  */
 export function offsetToCube(col, row) {
     // For odd-r flat-top:
-    const x = col - (row - (row & 1)) / 2; // (row & 1) is a bitwise way to check if row is odd (1) or even (0)
-    const z = row;
-    const y = -x - z; // x + y + z = 0
-    return { x, y, z };
+    const x = col - (row - (row & 1)) / 2 // (row & 1) is a bitwise way to check if row is odd (1) or even (0)
+    const z = row
+    const y = -x - z // x + y + z = 0
+    return { x, y, z }
 }
 
 /**
@@ -56,18 +56,18 @@ export function offsetToCube(col, row) {
  * @returns {number} The distance in cells between cellA and cellB.
  */
 export function getHexDistance(cellA, cellB) {
-    const { col: colA, row: rowA } = parseCellId(cellA.id);
-    const { col: colB, row: rowB } = parseCellId(cellB.id);
+    const { col: colA, row: rowA } = parseCellId(cellA.id)
+    const { col: colB, row: rowB } = parseCellId(cellB.id)
 
-    const cubeA = offsetToCube(colA, rowA);
-    const cubeB = offsetToCube(colB, rowB);
+    const cubeA = offsetToCube(colA, rowA)
+    const cubeB = offsetToCube(colB, rowB)
 
     // Hexagonal distance in cube coordinates is (abs(dx) + abs(dy) + abs(dz)) / 2
-    const dx = Math.abs(cubeA.x - cubeB.x);
-    const dy = Math.abs(cubeA.y - cubeB.y);
-    const dz = Math.abs(cubeA.z - cubeB.z);
+    const dx = Math.abs(cubeA.x - cubeB.x)
+    const dy = Math.abs(cubeA.y - cubeB.y)
+    const dz = Math.abs(cubeA.z - cubeB.z)
 
-    return (dx + dy + dz) / 2;
+    return (dx + dy + dz) / 2
 }
 
 /**
@@ -78,21 +78,21 @@ export function getHexDistance(cellA, cellB) {
  * @returns {{x: number, y: number}} The pixel coordinates of the center.
  */
 export function getHexCenter(col, row) {
-    let x = col * HORIZONTAL_SPACING;
-    let y = row * VERTICAL_SPACING;
+    let x = col * HORIZONTAL_SPACING
+    let y = row * VERTICAL_SPACING
 
     // Apply the offset for odd rows: shift right.
     if (row % 2 !== 0) { // If it's an odd row (1, 3, 5, ...)
-        x += HEX_SIZE * ODD_ROW_X_OFFSET_MULTIPLIER; 
+        x += HEX_SIZE * ODD_ROW_X_OFFSET_MULTIPLIER
     }
     
     // Add initial padding to center the map on the canvas
-    x += HEX_SIZE + INITIAL_PADDING; 
-    y += HEX_SIZE + INITIAL_PADDING;
+    x += HEX_SIZE + INITIAL_PADDING 
+    y += HEX_SIZE + INITIAL_PADDING
 
     // Round the final center coordinates to half-pixels for crisp rendering
-    x = roundToHalfPixel(x);
-    y = roundToHalfPixel(y);
+    x = roundToHalfPixel(x)
+    y = roundToHalfPixel(y)
 
-    return { x, y };
+    return { x, y }
 }

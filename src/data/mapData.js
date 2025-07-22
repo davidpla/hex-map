@@ -11,6 +11,6 @@ const mockedMapData = [
     [ // Row 3
         { id: "0-3", type: "forest" }, { id: "1-3", type: "forest" }, { id: "2-3", type: "grass" }, { id: "3-3", type: "grass" }, { id: "4-3", type: "water" }, { id: "5-3", type: "water" }
     ]
-];
+]
 
-export default mockedMapData;
+export default mockedMapData
